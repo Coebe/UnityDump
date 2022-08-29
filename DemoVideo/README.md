@@ -7,5 +7,5 @@
 
 ## PolyRPG
 
-![cover](./src/src_polyrpg.png)
+![cover](./src/src_polyrpg.png)  
 [demo video](https://www.aliyundrive.com/s/yb6ubNLft3r)  
