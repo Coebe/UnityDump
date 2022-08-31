@@ -38,10 +38,6 @@ public class CollisionHolder : MonoBehaviour
         {
             collisionEnabled = !collisionEnabled;
         }
-        else if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
     }
 
     static void DoSequence(bool tag, SequenceDelegate sequenceDelegate)

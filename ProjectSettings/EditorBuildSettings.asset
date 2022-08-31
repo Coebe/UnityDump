@@ -9,6 +9,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Boost/Project Boost.unity
     guid: 8b232670d3fe9194b8ec2169bda2dee2
   - enabled: 1
-    path: Assets/Scenes/Boost/Level2.unity
+    path: Assets/Scenes/Boost/Level_1.unity
     guid: fa87634cada93a4408ca9a2298a93f1f
+  - enabled: 1
+    path: Assets/Scenes/Boost/Level_2.unity
+    guid: 8620439c3b313994da4948a97482981b
+  - enabled: 1
+    path: Assets/Scenes/Boost/Level_3.unity
+    guid: 9da968c9e59f4bd4b9837e008110cba2
+  - enabled: 1
+    path: Assets/Scenes/Boost/Level_4.unity
+    guid: 3c3a63d3265a1d6458d3a9b11cb05067
   m_configObjects: {}
