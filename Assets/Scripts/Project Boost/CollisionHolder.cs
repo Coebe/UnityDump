@@ -92,7 +92,6 @@ public class CollisionHolder : MonoBehaviour
         Debug.Log("StartCrashSequence");
         isTransationing = true;
         audioSource.PlayOneShot(crash);
-        // TODO: add partical upon crash
         crashParticle.Play();
         GetComponent<Movement>().enabled = false;
         Invoke("ReloadLevel", loadDelay);
