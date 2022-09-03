@@ -2,6 +2,19 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public delegate void SequenceDelegate();
+// 定义委托
+public class CollisionEventManager
+{
+    // 声明事件变量
+    public event SequenceDelegate DelegateE;
+    // 声明委托变量
+    // public SequenceDelegate DelegateE;
+    // 事件
+    public void DoSomething()
+    {
+        DelegateE();
+    }
+}
 
 public class CollisionHolder : MonoBehaviour
 {
@@ -53,9 +66,11 @@ public class CollisionHolder : MonoBehaviour
         // 将方法解除绑定(-=)
         // SequenceDelegate delegate1 = new SequenceDelegate(StartCrashSequence);
         // delegate1 += StartSuccessSequence;
+        // CollisionEventManager eventManager = new CollisionEventManager();
+        // eventManager.DelegateE += CollisionHolder.StartCrashSequence();
         DoSequence(other.gameObject.CompareTag("Respawn"), StartCrashSequence);
         DoSequence(other.gameObject.CompareTag("Finish"), StartSuccessSequence);
-        // 使用委托(Delegate)替代 switch
+        // 使用委托(Delegate)替代 switch, 获取对象的tag属性会消耗额外的资源
         // switch (other.gameObject.tag)
         // {
         //     case "Friendly":
