@@ -62,7 +62,7 @@ public class Movement : MonoBehaviour
 
     void StartThrusting()
     {
-        // TODO: 火箭尾部粒子特效经常没有
+        // TODO: 编译器运行状态下 火箭尾部粒子特效经常没有
         particleMain.Play();
         rg.AddRelativeForce(Vector3.up * Time.deltaTime * thrustSpeed);
         if (!audioSource.isPlaying)
