@@ -54,7 +54,8 @@ C10K 问题
     `sudo apt-get update`  
     d. 最后输入命令安装yum即可。  
     `sudo apt-get install yum`（E: Unable to locate package yum）~~  
-    `yum -y install mysql-server` // 这里使用的 yum4(ubuntu) 安装的
+    `yum -y install mysql-server` // 这里使用的 yum4(ubuntu) 安装的  
+    ==注意== yum指令只适用于CentOS, Ubuntu使用apt-get  
   5. 安装完成后启动服务
     `service mysqld restart`  // 使用的`systemctl start mysql.service`
   6. 获取MySQL初始密码
@@ -93,3 +94,25 @@ C10K 问题
   `vim /etc/mysql/mysql.conf.d/mysqld.cnf`  
   修改 'bind-address = 127.0.0.1' 为 'bind-address = 0.0.0.0'  
   同时云服务器修改/添加安全组 mysql 端口:3306 授权对象:0.0.0.0/0  
+
+### Skynet入门(运行在linux系统)
+
+```C
+yum install git     #git,用于下载Skynet源码
+yum install gcc     #用于编译源码
+yum install autoconf #用于编译源码
+yum install readline-devel #编译Lua会用到
+```
+
+==注意== yum指令只适用于CentOS, Ubuntu使用apt-get  
+
+`#启动服务端范例`  
+`./skynet examples/config` #启动Skynet(KV数据库范例), KV数据库用于存储一些键值对
+
+`#启动客户端范例`  
+`lua examples/client.lua`  
+Skynet编译后会包含Lua程序,位于"3rd/lua/lua"中  
+如果服务器没有安装Lua或者版本低于5.3直接运行Skynet中的Lua就可以  
+`./3rd/lua/lua examples/client.lua`  
+> 如果"3rd/lua/lua"不存在,可以在"3rd/lua"执行 `make linux`,将Lua程序编译出来.
+
