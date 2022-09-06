@@ -13,6 +13,8 @@ public class PlayerControllerCS : MonoBehaviour
 
     float verticalVelocity = 0;
     float sprint = 0;
+
+    WaitForSeconds hideColDelay = new WaitForSeconds(0.5f);
     CharacterController controller;
     Transform cam;
     Animator animator;
@@ -30,6 +32,9 @@ public class PlayerControllerCS : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
+
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
@@ -93,7 +98,7 @@ public class PlayerControllerCS : MonoBehaviour
 
     IEnumerator HideCollider()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return hideColDelay;
         transform.Find("AttackCollider").GetComponent<BoxCollider>().enabled = false;
     }
 
