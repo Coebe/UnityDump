@@ -411,6 +411,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 0}
+  fakeDoor: {fileID: 0}
+  realDoor: {fileID: 0}
 --- !u!1 &627126522
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,6 +504,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 0}
+  fakeDoor: {fileID: 0}
+  realDoor: {fileID: 0}
 --- !u!95 &627126527
 Animator:
   serializedVersion: 3

@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour
+{
     //serializeField 可以让 private 元素显示出来 用来 debug 的
     /*[SerializeField]*/
     private Rigidbody2D player;
@@ -17,53 +18,64 @@ public class Player : MonoBehaviour {
     public AudioSource jumpAudio, hurtAudio, cherryAudio, gemAudio;
     public float speed;
     public float jumpForce;
-    public int Cherry;
-    public int Gem;
+    public int gem;
     public Text cherryNumber;
     public Text gemNumber;
     //bool default value is false
     private bool isHurt;
 
-    void Start() {
+    private LevelManager levelManager;
+    void Start()
+    {
         //让系统自动获取该变量
         player = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+        levelManager = LevelManager.GetInstance();
     }
 
-    void FixedUpdate() {
-        if (!isHurt) {
+    void FixedUpdate()
+    {
+        if (!isHurt)
+        {
             Move();
         }
         PlayerAnimation();
     }
-    private void Update() {
+    private void Update()
+    {
         Jump();
         Crouch();
         // 放到 update 可以有效解决计数延迟问题
-        cherryNumber.text = Cherry.ToString();
-        gemNumber.text = Gem.ToString();
+        cherryNumber.text = levelManager.cherryNum.ToString();
+        gemNumber.text = levelManager.gemNum.ToString();
     }
 
-    void Move() {
+    void Move()
+    {
         //获取键盘按键（-1 到 1 的过程值)
         float horizontalMove = Input.GetAxis("Horizontal");
         //获取 -1 0 1 三个确切值
-        float Direction = Input.GetAxisRaw("Horizontal");
+        float direction = Input.GetAxisRaw("Horizontal");
         //player 移动
-        if (horizontalMove != 0) {
+        if (horizontalMove != 0)
+        {
             player.velocity = new Vector2(horizontalMove * speed * Time.fixedDeltaTime, player.velocity.y);
             animator.SetFloat("run", Mathf.Abs(horizontalMove));
         }
 
         //player 朝向
-        if (Direction != 0) {
-            diriction.localScale = new Vector3(Direction, 1, 1);
+        if (direction != 0)
+        {
+            diriction.localScale = new Vector3(direction, 1, 1);
         }
         //蹲
         Crouch();
     }
-    void Jump() {
-        if (Input.GetButtonDown("Jump") && player.IsTouchingLayers(groundCheck)) {
+    void Jump()
+    {
+        if (Input.GetButtonDown("Jump") && player.IsTouchingLayers(groundCheck))
+        {
             // 在X轴方向给一个正向的速度
             player.velocity = new Vector2(player.velocity.x, jumpForce);
             // 播放跳跃音频
@@ -72,46 +84,62 @@ public class Player : MonoBehaviour {
             animator.SetBool("jumpUp", true);
         }
     }
-    void Crouch() {
-        if (Input.GetButton("Crouch")) {
+    void Crouch()
+    {
+        if (Input.GetButton("Crouch"))
+        {
             animator.SetBool("crouch", true);
             //“该碰撞体是否被启用” 否
             disCollider.enabled = false;
-        } else if (!Physics2D.OverlapCircle(cellingCheck.position, 0.2f, groundCheck)) {
+        }
+        else if (!Physics2D.OverlapCircle(cellingCheck.position, 0.2f, groundCheck))
+        {
             animator.SetBool("crouch", false);
             //“该碰撞体是否被启用” 是
             disCollider.enabled = true;
         }
     }
-    void PlayerAnimation() {
+    void PlayerAnimation()
+    {
         //animator.SetBool("idle", false);
-        if (player.velocity.y < 0.1f && !collider.IsTouchingLayers(groundCheck)) {
+        if (player.velocity.y < 0.1f && !collider.IsTouchingLayers(groundCheck))
+        {
             animator.SetBool("jumpUp", true);
         }
         //Change animation jumpDown to idle
-        if (animator.GetBool("jumpUp")) {
-            if (player.velocity.y < 0) {
+        if (animator.GetBool("jumpUp"))
+        {
+            if (player.velocity.y < 0)
+            {
                 animator.SetBool("jumpDown", true);
                 animator.SetBool("jumpUp", false);
             }
-        } else if (isHurt) {
+        }
+        else if (isHurt)
+        {
             animator.SetBool("hurt", true);
             animator.SetFloat("run", 0);
-            if (Mathf.Abs(player.velocity.x) < 0.1f) {
+            if (Mathf.Abs(player.velocity.x) < 0.1f)
+            {
                 //animator.SetBool("idle", true);
                 animator.SetBool("hurt", false);
                 isHurt = false;
             }
-        } else if (collider.IsTouchingLayers(groundCheck)) {
+        }
+        else if (collider.IsTouchingLayers(groundCheck))
+        {
             animator.SetBool("jumpDown", false);
             //animator.SetBool("idle", true);
         }
         //Change animation idle to crouch
-        if (animator.GetBool("crouch")) {
+        if (animator.GetBool("crouch"))
+        {
             animator.SetBool("crouch", true);
             //animator.SetBool("idle", false);
 
-        } else {
+        }
+        else
+        {
             //animator.SetBool("idle", true);
             animator.SetBool("crouch", false);
         }
@@ -121,50 +149,62 @@ public class Player : MonoBehaviour {
     // Collection
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //touching the Cherry then collect
-        if (collision.tag == "Cherry") {
+        //touching the levelManager.cherryNum then collect
+        if (collision.tag == "Cherry")
+        {
             cherryAudio.Play();
             //Destroy(collision.gameObject);
             collision.GetComponent<Animator>().Play("collected");
-            //cherryNumber.text = Cherry.ToString();
+            //cherryNumber.text = levelManager.cherryNum.ToString();
 
         }
         //touching the Gem then collect
-        if (collision.tag == "Gem") {
+        if (collision.tag == "Gem")
+        {
             gemAudio.Play();
             collision.GetComponent<Animator>().Play("collected");
             //已经在 gem script 使用过了 就不需要了
             //Destroy(collision.gameObject);
             //gemNumber.text = Gem.ToString();
         }
-        if (collision.tag == "deadLine") {
+        if (collision.tag == "deadLine")
+        {
             GetComponent<AudioSource>().enabled = false;
             Invoke("reStart", 2f);
         }
     }
 
-    public void cherryCount() {
-        Cherry += 1;
+    public void cherryCount()
+    {
+        levelManager.cherryNum += 1;
     }
-    public void gemCount() {
-        Gem += 1;
+    public void gemCount()
+    {
+        levelManager.gemNum += 1;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.tag == "Enemy") {
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
             // 有父类就不需要单独调用 Enemy_Frog frog = collision.gameObject.GetComponent<Enemy_Frog>();
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-            if (animator.GetBool("jumpDown") && transform.position.y > (collision.gameObject.transform.position.y + 1)) {
+            if (animator.GetBool("jumpDown") && transform.position.y > (collision.gameObject.transform.position.y + 1))
+            {
                 enemy.jumpOn();
                 player.velocity = new Vector2(player.velocity.x, jumpForce / 2);
                 //if player is hurt then bounce off enemy 
-            } else if (transform.position.x < collision.gameObject.transform.position.x) {
+            }
+            else if (transform.position.x < collision.gameObject.transform.position.x)
+            {
                 player.velocity = new Vector2(-5, player.velocity.y);
                 hurtAudio.Play();
                 animator.SetBool("hurt", true);
                 isHurt = true;
                 // if player is hurt then bounce off enemy 
-            } else if (transform.position.x > collision.gameObject.transform.position.x) {
+            }
+            else if (transform.position.x > collision.gameObject.transform.position.x)
+            {
                 player.velocity = new Vector2(5, player.velocity.y);
                 hurtAudio.Play();
                 animator.SetBool("hurt", true);
@@ -173,7 +213,8 @@ public class Player : MonoBehaviour {
         }
     }
 
-    void reStart() {
+    void reStart()
+    {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

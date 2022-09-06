@@ -19,7 +19,7 @@ public class Menu : MonoBehaviour
     }
     public void UIEnable()
     {
-        GameObject.Find("UI").SetActive(true);
+        transform.Find("UI").gameObject.SetActive(true);
     }
 
     public void pauseGame()
