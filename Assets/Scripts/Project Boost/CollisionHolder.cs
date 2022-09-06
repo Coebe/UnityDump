@@ -93,7 +93,6 @@ public class CollisionHolder : MonoBehaviour
 
     void StartSuccessSequence()
     {
-        Debug.Log("StartSuccessSequence");
         isTransationing = true;
         audioSource.PlayOneShot(finish);
         // TODO: add partical upon crash BUT build and run no problem
@@ -104,7 +103,6 @@ public class CollisionHolder : MonoBehaviour
 
     void StartCrashSequence()
     {
-        Debug.Log("StartCrashSequence");
         isTransationing = true;
         audioSource.PlayOneShot(crash);
         crashParticle.Play();

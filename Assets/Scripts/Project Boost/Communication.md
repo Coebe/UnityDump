@@ -115,4 +115,3 @@ Skynet编译后会包含Lua程序,位于"3rd/lua/lua"中
 如果服务器没有安装Lua或者版本低于5.3直接运行Skynet中的Lua就可以  
 `./3rd/lua/lua examples/client.lua`  
 > 如果"3rd/lua/lua"不存在,可以在"3rd/lua"执行 `make linux`,将Lua程序编译出来.
-

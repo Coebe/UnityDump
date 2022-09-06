@@ -21,7 +21,7 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int index = SceneManager.GetActiveScene().buildIndex;
-        levelIndex.text = defaultValue + index.ToString();
+        int curLevelIndex = SceneManager.GetActiveScene().buildIndex;
+        levelIndex.text = curLevelIndex.ToString();
     }
 }
